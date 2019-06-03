@@ -8,12 +8,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom'
 import axios from 'axios'
+import {setupInterceptors} from './utils/apiIntercept'
+
 
 axios.defaults.baseURL = 'http://localhost:3002'
 //https://glocal-news.herokuapp.com'
 
 const store = configureStore()
 verifyCredentials(store)
+
+setupInterceptors()
 
 ReactDOM.render((
   <Provider store={store}>
