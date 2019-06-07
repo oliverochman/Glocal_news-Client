@@ -8,10 +8,13 @@ import { withRouter } from 'react-router-dom';
 import { COUNTRY_OPTIONS } from '../Modules/countriesData'
 
 class HeaderMain extends Component {
-  state = {
-    activeItem: 'news',
-    country: ''
-  }
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeItem: 'news'
+    };
+  };
+  
 
   handleItemClick = (e) => {
     const category = e.target.id[0].toLowerCase() + e.target.id.slice(1);
@@ -27,17 +30,12 @@ class HeaderMain extends Component {
       })
   }
 
+  handleCountryChange = event => {
+    this.props.countryChangedHandler(event.target.innerText)
+  }
   
 
   render() {
-
-    // const countryOptions = [
-    //   {
-    //     key: "Sweden",
-    //     text: "Sweden",
-    //     value: "Sweden",
-    //   },
-    // ]
 
     const cityOptions = [
       {
@@ -137,7 +135,7 @@ class HeaderMain extends Component {
                 placeholder="Select Country"
                 options={COUNTRY_OPTIONS}
                 id="country"
-                onChange={this.props.handleChangeCountry}
+                onChange={this.handleCountryChange}
               />
 
               <Select
@@ -174,11 +172,17 @@ class HeaderMain extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    state: state,
     currentUser: state.reduxTokenAuth.currentUser
   }
 }
 
-export default withRouter(connect(
-  mapStateToProps,
-  { signOutUser },
-)(HeaderMain))
+const mapDispatchToProps = {
+  countryChangedHandler: country => ({
+    type: "CHANGE_COUNTRY",
+    country: country
+  }),
+  signOutUser
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HeaderMain))

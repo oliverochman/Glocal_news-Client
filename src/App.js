@@ -26,19 +26,13 @@ class App extends Component {
     this.setState({ paths: categoryPaths })
   }
 
-  handleChangeCountry = (e) => {
-    const value = e.target.value
-    this.setState({ country: value })
-  }
-
   render() {
     return (
       <>
-        <HeaderMain
-          handleChangeCountry={this.handleChangeCountry} />
+        <HeaderMain />
           <Switch>
             <Route exact path='/' render={() => (<Redirect to="/news" component={ArticlesByCategory} activeItem={'news'}/>)}></Route>
-            <Route exact path={this.state.paths} render={(props) => (<ArticlesByCategory {...props} country={this.state.country}/>)}></Route>
+            <Route exact path={this.state.paths} render={(props) => (<ArticlesByCategory {...props}/>)}></Route>
             <Route exact path='/write-article' component={requireSignIn(WriteArticle)}></Route>
             <Route exact path='/review-articles' component={requireSignIn(ListOfUnpublishedArticles)}></Route>
             <Route exact path='/full-article' component={requireSignIn(FullArticle)}></Route>
